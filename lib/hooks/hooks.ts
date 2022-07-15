@@ -11,6 +11,8 @@ export function useUserData() {
     const [user] = useAuthState(auth as any);
     const [username, setUsername] = useState<string | null>('');
 
+    // Listens to changes in user data
+    // from Firestore and Auth
     useEffect(() => {
         let unsubscribe;
         if (user) {
