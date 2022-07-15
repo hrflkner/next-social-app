@@ -1,3 +1,6 @@
+// React Hooks
+import { useContext } from 'react';
+
 // Next Components
 import Link from 'next/link';
 import Image from 'next/image';
@@ -5,7 +8,10 @@ import Image from 'next/image';
 // Styling
 import styled from 'styled-components';
 
-const NavBar = styled.nav`
+// Context
+import { UserContext } from '../../lib/context/UserContext';
+
+const StyledNavBar = styled.nav`
     height: 70px;
     width: 100%;
     background: white;
@@ -37,14 +43,11 @@ const NavBar = styled.nav`
     }
 `;
 
-type Props = {};
-
-function Navbar({}: Props) {
-    const user = null;
-    const username = null;
+function Navbar() {
+    const { user, username } = useContext(UserContext);
 
     return (
-        <NavBar className="navbar">
+        <StyledNavBar className="navbar">
             <ul>
                 <li>
                     <Link href="/">
@@ -60,11 +63,14 @@ function Navbar({}: Props) {
                         </li>
                         <li>
                             <Link href={`/${username}`}>
-                                {/* <Image
-                                    src={user}
-                                    alt="User Profile Picture"
-                                /> */}
-                                <a>Hi</a>
+                                <div>
+                                    <Image
+                                        width="30px"
+                                        height="30px"
+                                        src={user?.photoURL || '/avatar.png'}
+                                        alt="User Profile Picture"
+                                    />
+                                </div>
                             </Link>
                         </li>
                     </>
@@ -77,7 +83,7 @@ function Navbar({}: Props) {
                     </li>
                 )}
             </ul>
-        </NavBar>
+        </StyledNavBar>
     );
 }
 
