@@ -154,6 +154,7 @@ button.btn-green {
 }
 
 button.btn-google {
+    padding: 0rem 2rem;
     background-color: white;
     color: var(--color-text);
 }
