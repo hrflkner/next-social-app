@@ -7,9 +7,6 @@ import { UserContext } from '../lib/context/UserContext';
 // Next Components
 import Image from 'next/image';
 
-// Styling
-import styled from 'styled-components';
-
 // Firebase Authentication Service
 import {
     auth,
@@ -19,21 +16,6 @@ import {
 
 // Helper Functions
 import debounce from 'lodash.debounce';
-
-const StyledSignIn = styled.div`
-    button {
-        background-color: white;
-        color: var(--color-text);
-    }
-
-    .img-container {
-        margin-right: 10px;
-    }
-
-    p {
-        display: inline-block;
-    }
-`;
 
 function EnterPage({}) {
     const { user, username } = useContext(UserContext);
@@ -47,16 +29,13 @@ function EnterPage({}) {
                     <SignOutButton />
                 )
             ) : (
-                <div>
-                    <p>Sign Up Here:</p>
-                    <SignInButton />
-                </div>
+                <SignInButtonGrid />
             )}
         </main>
     );
 }
 
-function SignInButton() {
+function SignInButtonGrid() {
     const signInWithGoogle = async () => {
         try {
             auth.signInWithPopup(googleAuthProvider);
@@ -66,22 +45,59 @@ function SignInButton() {
     };
 
     return (
-        <StyledSignIn>
-            <button className="btn-google" onClick={signInWithGoogle}>
-                <div className="img-container">
-                    <Image
-                        width="20px"
-                        height="20px"
-                        src={'/googlelogo.png'}
-                        alt="Google Logo"
-                    />
-                </div>
-                <p>Sign in with Google</p>
-            </button>
-            <button onClick={() => auth.signInAnonymously()}>
-                Sign in Anonymously
-            </button>
-        </StyledSignIn>
+        <>
+            <section className="auth-button-grid">
+                <button className="auth-btn" onClick={signInWithGoogle}>
+                    <div className="img-container">
+                        <Image
+                            width="20px"
+                            height="20px"
+                            src={'/googlelogo.png'}
+                            alt="Google Logo"
+                        />
+                    </div>
+                    <p>Sign in with Google</p>
+                </button>
+                <button
+                    className="auth-btn"
+                    onClick={() => auth.signInAnonymously()}
+                >
+                    <p>Sign in Anonymously</p>
+                </button>
+            </section>
+
+            {/*Component Styling*/}
+            <style jsx>{`
+                .auth-button-grid {
+                    // Grid Settings
+                    display: grid;
+                    grid-template-rows: 1fr 1fr;
+                    grid-gap: 0.5rem;
+                    justify-content: center;
+                    align-items: center;
+                }
+                .auth-btn {
+                    // Layout
+                    height: 5rem;
+                    width: 24rem;
+                    border-radius: 5px;
+                    padding: 0.65rem;
+                    background-color: white;
+                    color: var(--color-text);
+                }
+                .img-container {
+                    margin-right: 0.5rem;
+                    transform: translateY(0.2rem);
+                }
+                p {
+                    // Layout
+                    margin: 0;
+
+                    // Typography
+                    font-size: 1.6rem;
+                }
+            `}</style>
+        </>
     );
 }
 
